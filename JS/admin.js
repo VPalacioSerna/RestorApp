@@ -11,13 +11,9 @@ let listProducts = [];
 
 //Control de botones
 const btnguardarProducto = document.getElementById('guardarProducto');
-let currentMode = 'CREATE'; // Puede ser: 'CREATE', 'EDIT', o 'VIEW'
+let currentMode = 'CREATE'; // 'CREATE', 'EDIT', 'VIEW'
 let productInEdition = null;
 
-
-
-//----------------------------------------------------Inicializacion
-document.addEventListener('DOMContentLoaded', getProducts);
 
 
 //----------------------------------------------------Funciones de API
@@ -71,8 +67,7 @@ async function deleteProduct(id) {
         if(res.ok) {
             return;
         } else {
-            throw new Error("Error en eliminar: ");
-            
+            throw new Error("Error en eliminar: ");            
         }
     } catch (error) {
         console.log(error.message);
@@ -104,9 +99,9 @@ function renderProducts(listProducts) {
                 <td class="text-truncate" style="max-width: 150px;">${p.description}</td>
                 <td>$${Number(p.price).toFixed(2)}</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-outline-info" onclick="infoProduct(${p.id})">Detalles</button>
-                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editProduct(${p.id})">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteProductConfirm(${p.id})">Eliminar</button>
+                    <button class="btn btn-sm btn-outline-info" onclick="infoProduct('${p.id}')">Detalles</button>
+                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editProduct('${p.id}')">Editar</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteProductConfirm('${p.id}')">Eliminar</button>
                 </td>
             </tr>
         `;
@@ -164,13 +159,13 @@ function editProduct(id) {
 }
 
 // deleteProductConfirm(id) -> falta esta funcion
-function deleteProductConfirm(id) {
+ async function deleteProductConfirm(id) {
     const product = listProducts.find(p => String(p.id) === String(id));
     if (product) {
         productInEdition = id;
-        deleteProduct(id);
+        await deleteProduct(id);
         alert('Producto Eliminado!')
-        getProducts();
+        await getProducts();
     }
 }
 
@@ -212,4 +207,11 @@ btnguardarProducto.addEventListener('click', async ()=> {
         console.log('Error');        
     }
 }) 
+
+
+//----------------------------------------------------Inicializacion
+document.addEventListener('DOMContentLoaded', getProducts);
+
+
+
 
