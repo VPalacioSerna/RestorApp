@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>user</title>
+    <!--Link para guardian de login-->
+    <script src="../JS/guard.js"></script>
+    <script>
+        verifyAccess('user');
+    </script>
     <!--Link para bootstrap html-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!--Link para los iconos de Font Awesome-->
@@ -21,9 +26,14 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-flex flex-column align-items-end" id="navbarNav">
+                <div class="collapse navbar-collapse d-flex flex-row align-items-end" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary px-3" href="./indexUser.html">Inicio</a>
+                        </li>   
+                    </ul>
                     <button class="btn btn-sm bg-success bg-opacity-75 ms-md-5 d-flex align-items-center gap-2">
-                        <a href="../login/login.html"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <a href="../login/login.html" class="text-black text-decoration-none" onclick="btnLogOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i>
                         Log Out</a>
                     </button>
                 </div>
@@ -36,19 +46,105 @@
         <div class="container">
             <div class="row mt-4">
                 <!--Our menu-->
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-8 ">
                     <div class="d-flex flex-column flex-md-row justify-content-between ">
                         <h2>Our Menu</h2>
                     </div>
                     <!--Cards de our menu-->
-                    <div class="card" >
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title p-3">#ORD-4402</h5>
-                                <div class="d-flex flex-column ">
-                                    <span class="fw-bold mx-5"><!--Precio-->$8.99</span>
-                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill mt-2">Delivered</span>
-                                </div>                                
+                    <div class="card mb-4 border-0 shadow-sm rounded-4 mb-3">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light p-3 rounded-circle me-3 text-secondary">
+                                        <i class="fa-solid fa-truck-fast"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">#ORD-4402</h6>
+                                        <small class="text-muted">Oct 24, 2023 • 2 Items</small>
+                                    </div>
+                                </div>
+
+                                <div class="text-end">
+                                    <span class="d-block fw-bold h5 mb-1">$45.50</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">Delivered</span>
+                                </div>
+                            </div>
+
+                            <hr class="text-muted opacity-25">
+
+                            <div class="d-flex justify-content-end align-items-center gap-3">
+                                <button class="btn btn-link text-decoration-none text-muted fw-bold p-0" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#details-4402">
+                                    View Receipt
+                                </button>
+                                <button class="btn btn-success rounded-pill px-4 fw-bold shadow-sm">
+                                    Reorder
+                                </button>
+                            </div>
+
+                            <div class="collapse mt-3" id="details-4402">
+                                <div class="bg-light rounded-3 p-3">
+                                    <h6 class="small fw-bold border-bottom pb-2 mb-2">Order Summary</h6>
+                                    <div class="d-flex justify-content-between small mb-2">
+                                        <span>1x Burguer Especial</span>
+                                        <span class="fw-bold">$23.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small">
+                                        <span>1x Valentina Pizza</span>
+                                        <span class="fw-bold">$22.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 border-0 shadow-sm rounded-4 mb-3">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light p-3 rounded-circle me-3 text-secondary">
+                                        <i class="fa-solid fa-truck-fast"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">#ORD-4402</h6>
+                                        <small class="text-muted">Oct 24, 2023 • 2 Items</small>
+                                    </div>
+                                </div>
+
+                                <div class="text-end">
+                                    <span class="d-block fw-bold h5 mb-1">$45.50</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">Delivered</span>
+                                </div>
+                            </div>
+
+                            <hr class="text-muted opacity-25">
+
+                            <div class="d-flex justify-content-end align-items-center gap-3">
+                                <button class="btn btn-link text-decoration-none text-muted fw-bold p-0" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#details-4402">
+                                    View Receipt
+                                </button>
+                                <button class="btn btn-success rounded-pill px-4 fw-bold shadow-sm">
+                                    Reorder
+                                </button>
+                            </div>
+
+                            <div class="collapse mt-3" id="details-4402">
+                                <div class="bg-light rounded-3 p-3">
+                                    <h6 class="small fw-bold border-bottom pb-2 mb-2">Order Summary</h6>
+                                    <div class="d-flex justify-content-between small mb-2">
+                                        <span>1x Burguer Especial</span>
+                                        <span class="fw-bold">$23.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small">
+                                        <span>1x Valentina Pizza</span>
+                                        <span class="fw-bold">$22.50</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,6 +198,7 @@
         </div>
     </main>
 
+    <script src="../JS/user.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

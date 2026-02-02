@@ -1,3 +1,14 @@
+//1. Variables
+//2. Funciones Api
+//3. Funciones renderizar
+//4. Funciones control de estado (limpiar, llenar)
+//5. Funciones interaccion
+//6. Funciones inicializadores
+
+
+
+
+
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');

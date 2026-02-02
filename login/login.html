@@ -16,27 +16,27 @@
                             <div class="card-header d-flex justify-content-center p-4"><h5>Inicio Sesion</h5></div>
                             <div class="card-body">
                                 <div class="mt-3">
-                                    <label for="name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Mi nombre completo" required>
+                                    <label for="name-text" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="name-text" placeholder="Mi nombre completo" required>
                                 </div>
                                 <div class="mt-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="email@gmail.com" required>
+                                    <label for="email-text" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email-text" placeholder="email@gmail.com" required>
                                 </div>
                                 <div class="mt-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" placeholder="**********" required>
+                                    <label for="password-text" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password-text" placeholder="**********" required>
                                 </div>
                                 <div class="mt-3">
-                                    <label for="rol" class="form-label">Seleccione Rol </label>
-                                    <select name="Rol" class="form-select" id="">
-                                        <option value="admin">Admin</option>
-                                        <option value="user">User</option>
+                                    <label for="rol-text" class="form-label">Seleccione Rol </label>
+                                    <select name="Rol" class="form-select" id="rol-text">
+                                        <option value="admin">admin</option>
+                                        <option value="user">user</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="mb-3 d-flex justify-content-center">
-                                <button class="btn btn-sm bg-success bg-opacity-75" id="btn-login"> 
+                                <button type="button" class="btn btn-sm bg-success bg-opacity-75" id="btn-login" onclick="btnLogin()"> 
                                     Iniciar Sesion
                                 </button>
                             </div>                        
@@ -48,6 +48,7 @@
         </div>
     </main>
 
-    <script src="./metodosJSON.js"></script>
+    <script src="../JS/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

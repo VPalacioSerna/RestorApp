@@ -1,3 +1,12 @@
+//1. Variables
+//2. Funciones Api
+//3. Funciones renderizar
+//4. Funciones control de estado (limpiar, llenar)
+//5. Funciones interaccion
+//6. Funciones inicializadores
+
+
+
 const URL_API = 'http://localhost:3000/products';  
 
 const inputImg = document.getElementById('inputImg');
@@ -16,7 +25,7 @@ let productInEdition = null;
 
 
 
-//----------------------------------------------------Funciones de API
+//---------------------Funciones de API
 
 //Traer productos (llamar a get para renderizar)
 async function getProducts() {
@@ -26,7 +35,7 @@ async function getProducts() {
         //muestra
         renderProducts(listProducts);
     } catch (error) {
-        console.log('Error al obtener los productos:', error);        
+        console.log('Error al obtener los productos en admin:', error);        
     }
 }
 
@@ -75,7 +84,7 @@ async function deleteProduct(id) {
 }
 
 
-//----------------------------------------------------Funciones de Renderizar
+//---------------------Funciones de Renderizar
 
 //Mostrar los productos
 function renderProducts(listProducts) {
@@ -109,7 +118,7 @@ function renderProducts(listProducts) {
 
 }
 
-//----------------------------------------------------Funciones de control de estado y formulario
+//---------------------Funciones de control de estado y formulario
 
 // Función para limpiar todo y volver al estado inicial
 function resetForm() {
@@ -135,7 +144,12 @@ function cleanForm() {
     inputImg.value = '';
 }
 
-//----------------------------------------------------Funciones de interaccion (botones de la tabla)
+function btnLogOut(){
+    const session = localStorage.removeItem('sessionUser');    
+}
+
+//---------------------Funciones de interaccion (botones de la tabla)
+//Estas funciones llenan los datos en el formulario y manejan las variables de control
 
 //Funcion para detalles
 function infoProduct(id) {
@@ -158,7 +172,7 @@ function editProduct(id) {
     }
 }
 
-// deleteProductConfirm(id) -> falta esta funcion
+//Funcion para eliminar producto
  async function deleteProductConfirm(id) {
     const product = listProducts.find(p => String(p.id) === String(id));
     if (product) {
@@ -169,7 +183,8 @@ function editProduct(id) {
     }
 }
 
-//----------------------------------------------------Manejador principal (boton guardar)
+//---------------------Manejador principal (boton guardar)
+//Llama las funciones del CRUD para que hagan los cambios en la bd
 
 //Manejo del guardado de datos
 btnguardarProducto.addEventListener('click', async ()=> {
@@ -209,7 +224,7 @@ btnguardarProducto.addEventListener('click', async ()=> {
 }) 
 
 
-//----------------------------------------------------Inicializacion
+//---------------------Inicializacion
 document.addEventListener('DOMContentLoaded', getProducts);
 
 
