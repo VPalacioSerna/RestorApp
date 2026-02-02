@@ -17,6 +17,8 @@ let listOrders = [];
 const containerCards = document.getElementById('container-cards'); //contiene las cards
 const cartUser = document.getElementById('container-cart'); //Container your order
 
+const containerHistory = document.getElementById('orders-history-container');
+
 //Control de botones
 const cleanOrder = document.getElementById('clean-order'); //Limpiar el carrito
 
@@ -26,6 +28,8 @@ const cleanOrder = document.getElementById('clean-order'); //Limpiar el carrito
 
 //Traer productos (llamar a get para renderizar)
 async function getProducts() {
+    if (!containerCards) return; //por si esta en la pagina de info
+
     try {
         const res = await fetch(`${URL_API_PRODUCTOS}`);
         listProducts = await res.json();
@@ -42,12 +46,17 @@ async function confirmOrder() {
         return;
     }
 
+    const sessionData = JSON.parse(localStorage.getItem('sessionUser'));
+    if (!sessionData) {
+        alert("Error: No se encontró una sesión iniciada.");
+        return;
+    }
+
     const data = {
-        userId: user.id, //FALTA TRAERLO DEL LOCAL
+        userId: sessionData.id,
         date: new Date().toLocaleString(), //trae la fecha en el momento
         products: listOrders,
-        total: listOrders.reduce((acc, p) => acc + Number(p.price), 0),
-        status: "Delivered"
+        total: listOrders.reduce((acc, p) => acc + Number(p.price), 0)
     };
 
     try {
@@ -59,8 +68,7 @@ async function confirmOrder() {
         
         if (res.ok) {
             alert('Se ha creado la orden!');
-            listOrders = []; //Limpriar la lista para empezar con otra orden  
-            window.location = './infoUser.html';          
+            listOrders = []; //Limpriar la lista para empezar con otra orden 
         } 
     } catch (error) {
         console.log('Error en crear producto: ', error);
@@ -82,9 +90,24 @@ async function buscarPorId(id) {
   }
 }
 
+
 // Funcion para traer las ordenes del usuario actual (GET userID)
+async function getUserOrders() {
+    // Uusuario que se guarda en el local storage gracias a la entrada
+    const sessionData = JSON.parse(localStorage.getItem('sessionUser'));
+    
+    if (!sessionData || !sessionData.id) return; //no se pide nada si no hay sesion
 
-
+    try {
+        const res = await fetch(`${URL_API_ORDERS}?userId=${sessionData.id}`);
+        const orders = await res.json();
+        renderOrdersHistory(orders); //renderiza las ordenes
+        renderUserProfile(orders.length); //renderiza el usuario y la cantidad de ordenes
+    } catch (error) {
+        console.error('Error al obtener el historial de ordenes: ', error);
+        renderUserProfile(0);
+    }
+}
 
 
 //--------------Funciones de Renderizar
@@ -92,6 +115,8 @@ async function buscarPorId(id) {
 //------------------------Sesion Productos
 //Mostrar los productos
 function renderProducts(list) {
+    if (!containerCards) return;
+
     containerCards.innerHTML = '';
 
     if (list.length === 0) {
@@ -128,6 +153,8 @@ function renderProducts(list) {
 
 // Esta funcion inicializa la card de las ordenes vacia a con productos
 function initCartStructure() {
+    if (!cartUser) return;
+
     cartUser.innerHTML = `
         <div class="card shadow-sm">
             <div class="card-header d-flex justify-content-between bg-white border-0 pt-3">
@@ -200,11 +227,61 @@ function renderCartItems() {
 
 //------------------------Sesion Perfil
 // Funcion para renderizar la info del usuario
+function renderUserProfile(ordersCount = 0) {
+    // Obtenemos el usuario de la sesión
+    const sessionData = JSON.parse(localStorage.getItem('sessionUser'));
+
+    if (!sessionData) return;
+
+    //Elementos de html de pagina de info (locales porque solo se necesitan aqui)
+    const nameUser = document.getElementById('user-name');
+    const emailUser = document.getElementById('user-email');
+    const roleUser = document.getElementById('user-role');
+    const countUser = document.getElementById('user-order-count');
+
+    if (nameUser) nameUser.innerText = sessionData.name || sessionData.username;
+    if (emailUser) emailUser.innerText = sessionData.email;
+    if (roleUser) roleUser.innerText = sessionData.role;
+    if (countUser) countUser.innerText = ordersCount;
+}
 
 
 // Funcion para renderizar la lista de ordenes o compras hechas
+function renderOrdersHistory(orders) {
+    if (!containerHistory) return;
 
+    if (orders.length === 0) {
+        containerHistory.innerHTML = '<p class="text-muted">You haven\'t placed any orders yet.</p>';
+        return;
+    }
 
+    // .reverse() para que muestre del ultimo al primero
+    containerHistory.innerHTML = orders.reverse().map(order => `
+        <div class="card mb-4 border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-light p-3 rounded-circle me-3 text-secondary">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Order #${order.id}</h6>
+                            <small class="text-muted">${order.date}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="d-block fw-bold h5 mb-1">$${order.total.toFixed(2)}</span>
+                    </div>
+                </div>
+                <hr class="text-muted opacity-25">
+                <div class="small text-muted">
+                    ${order.products.map(p => p.nameProduct).join(', ')} <!--Muestra solo el nombre de los productos pedidos-->
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+}
 
 
 //--------------Funciones de iteracion
@@ -241,11 +318,11 @@ function btnLogOut(){
 }
 
 
-//Inicializacion
-
+//----------------Inicializacion
 document.addEventListener('DOMContentLoaded', () => {
     getProducts(); // Trae los productos de la API
-    initCartStructure(); //Inicializa la card de las ordenes    
+    initCartStructure(); //Inicializa la card de las ordenes 
+    getUserOrders();  //Trae las ordenes del usuario en la pagina de info     
 });
 
 

@@ -1,13 +1,12 @@
 //1. Variables
 //2. Funciones Api
 //3. Funciones renderizar
-//4. Funciones control de estado (limpiar, llenar)
-//5. Funciones interaccion
-//6. Funciones inicializadores
+//4. Funciones logica
 
 
+// URL APIs
+const URL_API_PRODUCTS = 'http://localhost:3000/products';  
 
-const URL_API = 'http://localhost:3000/products';  
 
 const inputImg = document.getElementById('inputImg');
 const inputName = document.getElementById('inputName');
@@ -30,7 +29,7 @@ let productInEdition = null;
 //Traer productos (llamar a get para renderizar)
 async function getProducts() {
     try {
-        const res = await fetch(`${URL_API}`);
+        const res = await fetch(`${URL_API_PRODUCTS}`);
         listProducts = await res.json();
         //muestra
         renderProducts(listProducts);
@@ -42,7 +41,7 @@ async function getProducts() {
 //Crear producto
 async function createProduct(data) {
     try {
-        const res = await fetch(`${URL_API}`, {
+        const res = await fetch(`${URL_API_PRODUCTS}`, {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -56,7 +55,7 @@ async function createProduct(data) {
 //Editar producto
 async function updateProduct(id, data) {
     try {
-        const res = await fetch(`${URL_API}/${id}`, {
+        const res = await fetch(`${URL_API_PRODUCTS}/${id}`, {
             method: 'PATCH', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -70,7 +69,7 @@ async function updateProduct(id, data) {
 //Eliminar producto
 async function deleteProduct(id) {
     try {
-        const res = await fetch(`${URL_API}/${id}`, {
+        const res = await fetch(`${URL_API_PRODUCTS}/${id}`, {
             method: 'DELETE'
         })      
         if(res.ok) {
@@ -82,6 +81,7 @@ async function deleteProduct(id) {
         console.log(error.message);
     }
 }
+
 
 
 //---------------------Funciones de Renderizar
@@ -118,6 +118,8 @@ function renderProducts(listProducts) {
 
 }
 
+
+
 //---------------------Funciones de control de estado y formulario
 
 // Función para limpiar todo y volver al estado inicial
@@ -147,6 +149,7 @@ function cleanForm() {
 function btnLogOut(){
     const session = localStorage.removeItem('sessionUser');    
 }
+
 
 //---------------------Funciones de interaccion (botones de la tabla)
 //Estas funciones llenan los datos en el formulario y manejan las variables de control
